@@ -10,3 +10,6 @@ def init():
     outbuf = []
     global outbuf_mutex
     outbuf_mutex = threading.Lock()
+
+    global destination
+    destination = None

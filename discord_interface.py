@@ -12,6 +12,8 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    if message.author == client.user or message.channel != var.destination:
+        return
     var.inbuf_mutex.acquire()
     var.inbuf.append(message.content)
     var.inbuf_mutex.release()
@@ -19,18 +21,19 @@ async def on_message(message):
 
 async def send_task():
     await client.wait_until_ready()
-    recv = client.get_channel(777038663401865250)
     while not client.is_closed():
         var.outbuf_mutex.acquire()
         for m in var.outbuf:
-            await recv.send(m)
+            await var.destination.send(m)
         var.outbuf.clear()
         var.outbuf_mutex.release()
         await asyncio.sleep(0.001)
 
+def getChannel(chanid):
+    return client.get_channel(chanid)
 
 client.loop.create_task(send_task())
 
 async def go():
-    await client.start("NTI4MjYwMTg3NDM4NzEwODI0.X5hrUg.0kdfwIF3g2TV0s3xvYqiPf1sGjQ", bot=False)
+    await client.start("NTI4MjYwMTg3NDM4NzEwODI0.X7A3oQ.HlF08F0ABzx2GuLnRUN7F8945eU", bot=False)
 
