@@ -91,20 +91,21 @@ while True:
         if s: s = s[:-1]
     elif c != ERR:
         if c == ord('\n'):
-            if s[0] == '/':
-                if s == '/exit': break;
-                else: parseCommand(s.split(' '))
-            else:
-                if canSend():
-                    chat.addstr(s + '\n')
-                    good, cipher = crypto.encrypt(s)
-                    if good:
-                        var.outbuf_mutex.acquire()
-                        var.outbuf.append(cipher)
-                        var.outbuf_mutex.release()
-                    else:
-                        chat.addstr('GPG encryption failure: ' + cipher)
-            s = ''
+            if s:
+                if s[0] == '/':
+                    if s == '/exit': break;
+                    else: parseCommand(s.split(' '))
+                else:
+                    if canSend():
+                        chat.addstr(s + '\n')
+                        good, cipher = crypto.encrypt(s)
+                        if good:
+                            var.outbuf_mutex.acquire()
+                            var.outbuf.append(cipher)
+                            var.outbuf_mutex.release()
+                        else:
+                            chat.addstr('GPG encryption failure: ' + cipher)
+                s = ''
         else:
             s += chr(c)
 
