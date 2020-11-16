@@ -35,5 +35,5 @@ def getChannel(chanid):
 client.loop.create_task(send_task())
 
 async def go():
-    await client.start("NTI4MjYwMTg3NDM4NzEwODI0.X7COuQ.qwPYB3FBD3B87TKk8c-WD9ohtV4", bot=False)
+    await client.start(var.token, bot=False)
 
